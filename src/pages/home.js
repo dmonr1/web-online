@@ -64,6 +64,11 @@ let dealsCarouselTimer = null;
 let customSelects = [];
 let favoritesDropdown = null;
 let selectedFiltersMount = null;
+let heroDragStartX = 0;
+let heroDragStartY = 0;
+let heroDragPointerId = null;
+let heroDragActive = false;
+let heroDragMoved = false;
 
 function showHeroSlide(index) {
   if (!heroSlides.length) return;
@@ -82,6 +87,49 @@ function startHeroCarousel() {
   heroCarouselTimer = window.setInterval(() => {
     showHeroSlide(currentHeroSlide + 1);
   }, 5000);
+}
+
+function resetHeroDrag() {
+  heroDragPointerId = null;
+  heroDragActive = false;
+  heroDragMoved = false;
+  heroCarouselTrack?.classList.remove("is-dragging");
+}
+
+function handleHeroDragStart(event) {
+  if (heroSlides.length < 2 || event.button > 0) return;
+  heroDragPointerId = event.pointerId;
+  heroDragStartX = event.clientX;
+  heroDragStartY = event.clientY;
+  heroDragActive = true;
+  heroDragMoved = false;
+  heroCarouselTrack?.classList.add("is-dragging");
+  heroCarouselTrack?.setPointerCapture?.(event.pointerId);
+  window.clearInterval(heroCarouselTimer);
+}
+
+function handleHeroDragMove(event) {
+  if (!heroDragActive || event.pointerId !== heroDragPointerId) return;
+  const distanceX = event.clientX - heroDragStartX;
+  const distanceY = event.clientY - heroDragStartY;
+  if (Math.abs(distanceX) > 8 && Math.abs(distanceX) > Math.abs(distanceY)) {
+    heroDragMoved = true;
+    event.preventDefault();
+  }
+}
+
+function handleHeroDragEnd(event) {
+  if (!heroDragActive || event.pointerId !== heroDragPointerId) return;
+  const distanceX = event.clientX - heroDragStartX;
+  const threshold = Math.min(120, Math.max(46, (heroCarouselTrack?.clientWidth || 320) * 0.12));
+
+  if (Math.abs(distanceX) >= threshold) {
+    showHeroSlide(currentHeroSlide + (distanceX < 0 ? 1 : -1));
+  }
+
+  heroCarouselTrack?.releasePointerCapture?.(event.pointerId);
+  resetHeroDrag();
+  startHeroCarousel();
 }
 
 function scrollRail(rail, direction = 1) {
@@ -969,6 +1017,20 @@ heroCarouselDots?.addEventListener("click", (event) => {
   if (!dot) return;
   showHeroSlide(Number(dot.dataset.slide));
   startHeroCarousel();
+});
+heroCarouselTrack?.addEventListener("pointerdown", handleHeroDragStart);
+heroCarouselTrack?.addEventListener("pointermove", handleHeroDragMove);
+heroCarouselTrack?.addEventListener("pointerup", handleHeroDragEnd);
+heroCarouselTrack?.addEventListener("pointercancel", (event) => {
+  if (event.pointerId !== heroDragPointerId) return;
+  resetHeroDrag();
+  startHeroCarousel();
+});
+heroCarouselTrack?.addEventListener("click", (event) => {
+  if (!heroDragMoved) return;
+  event.preventDefault();
+  event.stopPropagation();
+  heroDragMoved = false;
 });
 popularPrevBtn?.addEventListener("click", () => scrollRail(popularProductsRail, -1));
 popularNextBtn?.addEventListener("click", () => scrollRail(popularProductsRail, 1));

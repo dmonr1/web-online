@@ -572,7 +572,14 @@ main {
 
 .store-hero-track {
   aspect-ratio: 16 / 5.6;
+  cursor: grab;
   position: relative;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.store-hero-track.is-dragging {
+  cursor: grabbing;
 }
 
 .store-hero-slide {
