@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito | Tienda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/layout.css" />
+  </head>
+  <body>
+    <header class="store-header">
+      <div class="store-header-inner">
+        <a class="brand" href="/">
+          <span>Tienda</span>
+        </a>
+        <form class="store-search" action="/busqueda/" method="get">
+          <span>Buscar</span>
+          <input name="q" type="search" placeholder="Mouse, teclado, monitor..." />
+          <button type="submit" aria-label="Buscar productos">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          </button>
+        </form>
+        <div class="header-actions">
+          <button class="favorites-trigger" type="button" aria-label="Ver favoritos">
+            <i class="fa-regular fa-heart"></i>
+            <span>Favoritos</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="cart-page">
+      <div class="cart-page-layout">
+        <section class="cart-page-card cart-items-panel">
+          <div class="section-head">
+            <div>
+              <a class="cart-back-link" href="/">
+                <i class="fa-solid fa-arrow-left"></i>
+                Regresar
+              </a>
+              <h1>Detalle del carrito</h1>
+            </div>
+          </div>
+          <div id="cartPageItems" class="cart-page-items"></div>
+        </section>
+
+        <aside class="cart-page-card cart-summary-panel" aria-label="Resumen de venta">
+          <div>
+            <p class="eyebrow">Resumen</p>
+            <h2>Resumen de venta</h2>
+          </div>
+          <div class="cart-summary-lines">
+            <div>
+              <span>Productos</span>
+              <strong id="cartPageCount">0</strong>
+            </div>
+            <div>
+              <span>Subtotal</span>
+              <strong id="cartPageSubtotal">S/ 0.00</strong>
+            </div>
+          </div>
+          <div class="cart-page-total">
+            <span>Total</span>
+            <strong id="cartPageTotal">S/ 0.00</strong>
+          </div>
+          <a id="cartWhatsappBtn" class="whatsapp-button" href="#" target="_blank" rel="noopener">
+            <i class="fa-brands fa-whatsapp"></i>
+            Continuar en WhatsApp
+          </a>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="store-footer">
+      <div class="store-footer-inner">
+        <div class="footer-brand-block">
+          <h2>Tienda</h2>
+          <p>Equipos, componentes y accesorios para armar, mejorar y cuidar tu setup.</p>
+          <div class="footer-whatsapp-card" aria-label="Atencion por WhatsApp">
+            <span><i class="fa-brands fa-whatsapp"></i></span>
+            <div>
+              <strong>Atencion por WhatsApp</strong>
+              <small>+51 999 999 999</small>
+            </div>
+          </div>
+        </div>
+
+        <nav class="footer-links" aria-label="Paginas principales">
+          <h3>Principal</h3>
+          <a href="/">Inicio</a>
+          <a href="/#catalogo">Catalogo</a>
+          <a href="/busqueda/">Buscar</a>
+          <a href="/carrito/">Carrito</a>
+        </nav>
+
+        <nav class="footer-links" aria-label="Ayuda">
+          <h3>Ayuda</h3>
+          <a href="/#catalogo">Productos</a>
+          <a href="/carrito/">Mi pedido</a>
+          <a href="/#catalogo">Ofertas</a>
+          <a href="/">Garantia</a>
+        </nav>
+
+        <nav class="footer-links" aria-label="Empresa">
+          <h3>Empresa</h3>
+          <a href="/">Nosotros</a>
+          <a href="/">Atencion</a>
+          <a href="/">Politicas</a>
+          <a href="/">Contacto</a>
+        </nav>
+
+        <div class="footer-contact">
+          <h3>Contacto</h3>
+          <p><i class="fa-solid fa-location-dot"></i> Lima, Peru</p>
+          <p><i class="fa-brands fa-whatsapp"></i> +51 999 999 999</p>
+          <p><i class="fa-solid fa-envelope"></i> ventas@tienda.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Copyright Tienda</span>
+        <a href="/">Politica de privacidad</a>
+        <a href="/">Terminos y condiciones</a>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/pages/cart.js"></script>
+  </body>
+</html>

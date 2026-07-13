@@ -1,0 +1,32 @@
+export const sampleProducts = [
+  {
+    id: "1",
+    nombre: "Mouse Logitech G203",
+    categoria: "Perifericos",
+    precio: "89",
+    stock: "12",
+    descripcion: "Mouse gamer RGB con sensor de alta precision.",
+    imagen_url: "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
+    activo: "SI",
+  },
+  {
+    id: "2",
+    nombre: "Teclado Redragon K552",
+    categoria: "Teclados",
+    precio: "145",
+    stock: "5",
+    descripcion: "Teclado mecanico compacto con iluminacion RGB.",
+    imagen_url: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
+    activo: "SI",
+  },
+  {
+    id: "3",
+    nombre: "Cable HDMI 2m",
+    categoria: "Accesorios",
+    precio: "25",
+    stock: "30",
+    descripcion: "Cable HDMI compatible con TV, monitores y laptops.",
+    imagen_url: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?auto=format&fit=crop&w=900&q=80",
+    activo: "SI",
+  },
+];

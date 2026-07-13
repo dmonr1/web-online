@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --ink: #151923;
+  --muted: #647084;
+  --line: #dfe5ef;
+  --accent: #0f766e;
+  --accent-dark: #115e59;
+  --shadow: 0 16px 40px rgba(19, 31, 54, 0.11);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Poppins, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.eyebrow {
+  color: var(--accent-dark);
+  font-size: 0.77rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.empty-state {
+  align-items: center;
+  color: var(--ink);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  margin: 48px auto 0;
+  max-width: 420px;
+  min-height: 220px;
+  padding: 36px 18px;
+  text-align: center;
+}
+
+.empty-state[hidden] {
+  display: none;
+}
+
+.empty-state i {
+  align-items: center;
+  background: rgb(241 254 255);
+  border-radius: 999px;
+  color: var(--accent-dark);
+  display: inline-flex;
+  font-size: 1.7rem;
+  height: 72px;
+  justify-content: center;
+  margin-bottom: 4px;
+  width: 72px;
+}
+
+.empty-state strong {
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.empty-state span {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.form-status {
+  color: var(--accent-dark);
+  font-weight: 600;
+  margin: 0;
+}
+
+.check-row {
+  align-items: center;
+  cursor: pointer;
+  display: flex !important;
+  gap: 10px;
+  line-height: 1.35;
+}
+
+.check-row input[type="checkbox"] {
+  appearance: none;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  display: inline-grid;
+  flex: 0 0 auto;
+  height: 19px;
+  margin: 0;
+  place-content: center;
+  width: 19px;
+}
+
+.check-row input[type="checkbox"]::before {
+  border-bottom: 2px solid #fff;
+  border-right: 2px solid #fff;
+  content: "";
+  height: 9px;
+  opacity: 0;
+  transform: rotate(45deg) translate(-1px, -1px);
+  width: 5px;
+}
+
+.check-row input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.check-row input[type="checkbox"]:checked::before {
+  opacity: 1;
+}

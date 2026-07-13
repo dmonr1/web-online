@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultados | Tienda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="stylesheet" href="/src/styles/base.css" />
+    <link rel="stylesheet" href="/src/styles/layout.css" />
+  </head>
+  <body data-page="search">
+    <header class="store-header">
+      <div class="store-header-inner">
+        <a class="brand" href="/">
+          <span>Tienda</span>
+        </a>
+
+        <form id="searchForm" class="store-search" action="/busqueda/" method="get">
+          <span>Buscar</span>
+          <input id="searchInput" name="q" type="search" placeholder="Mouse, teclado, monitor..." />
+          <button type="submit" aria-label="Buscar productos">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          </button>
+          <div id="searchSuggestions" class="search-suggestions" hidden></div>
+        </form>
+
+        <div class="header-actions">
+          <button id="favoritesBtn" class="favorites-trigger" type="button" aria-label="Ver favoritos">
+            <i class="fa-regular fa-heart"></i>
+            <span>Favoritos</span>
+          </button>
+
+          <button id="openCartBtn" class="cart-trigger" type="button" aria-label="Abrir carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartBadge">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="store-main search-main">
+      <nav class="breadcrumbs search-breadcrumbs" aria-label="Ruta de navegacion">
+        <a href="/"><i class="fa-solid fa-house"></i> Inicio</a>
+        <span id="searchBreadcrumbCurrent">Resultados</span>
+      </nav>
+
+      <section class="catalog-section" id="catalogo">
+        <div class="catalog-layout">
+          <aside class="catalog-sidebar" id="categorias">
+            <div class="catalog-sidebar-head">
+              <p class="eyebrow">Filtros</p>
+            </div>
+
+            <div class="filter-accordion">
+              <section class="filter-group is-open">
+                <button class="filter-group-trigger" type="button" data-filter-toggle>
+                  <span>Categoria</span>
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+                <div id="categoryCarousel" class="filter-options"></div>
+              </section>
+
+              <section class="filter-group">
+                <button class="filter-group-trigger" type="button" data-filter-toggle>
+                  <span>Marca</span>
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+                <div id="brandOptions" class="filter-options"></div>
+              </section>
+
+              <section class="filter-group">
+                <button class="filter-group-trigger" type="button" data-filter-toggle>
+                  <span>Precio</span>
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+                <div class="filter-options">
+                  <div class="price-range" data-price-range>
+                    <div class="price-range-values">
+                      <label>
+                        <span>Min</span>
+                        <input id="minPriceInput" type="number" min="0" value="0" step="10" aria-label="Precio minimo manual" />
+                      </label>
+                      <label>
+                        <span>Max</span>
+                        <input id="maxPriceInput" type="number" min="0" value="0" step="10" aria-label="Precio maximo manual" />
+                      </label>
+                    </div>
+                    <div class="price-slider">
+                      <input id="minPriceRange" type="range" min="0" max="0" value="0" step="10" aria-label="Precio minimo" />
+                      <input id="maxPriceRange" type="range" min="0" max="0" value="0" step="10" aria-label="Precio maximo" />
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section class="filter-group">
+                <button class="filter-group-trigger" type="button" data-filter-toggle>
+                  <span>Color</span>
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+                <div class="filter-options">
+                  <p class="filter-empty">Sin colores registrados</p>
+                </div>
+              </section>
+            </div>
+          </aside>
+
+          <div class="catalog-content">
+            <div class="section-head catalog-title-row">
+              <div>
+                <p class="eyebrow">Resultados</p>
+                <h2 id="catalogTitle">Resultados de busqueda</h2>
+              </div>
+              <div class="catalog-filter-bar" aria-label="Filtros del catalogo">
+                <select id="categoryFilter" aria-label="Filtrar por categoria">
+                  <option value="">Seleccione</option>
+                </select>
+                <select id="brandFilter" aria-label="Filtrar por marca">
+                  <option value="">Seleccione</option>
+                </select>
+              </div>
+              <div class="catalog-sort-control" aria-label="Ordenar productos">
+                <span>Ordenar:</span>
+                <select id="sortFilter" aria-label="Ordenar productos">
+                  <option value="relevance">Relevancia</option>
+                  <option value="price-desc">Precio mayor</option>
+                  <option value="price-asc">Precio menor</option>
+                </select>
+              </div>
+            </div>
+            <div id="productsGrid" class="products-grid"></div>
+            <div class="catalog-load-more-row">
+              <button id="loadMoreProductsBtn" class="load-more-button" type="button" hidden>
+                <span>Ver más</span>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div id="emptyState" class="empty-state" hidden>
+              <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+              <strong>No hay productos para mostrar</strong>
+              <span>Prueba cambiando los filtros o revisa otra busqueda.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="store-footer">
+      <div class="store-footer-inner">
+        <div class="footer-brand-block">
+          <h2>Tienda</h2>
+          <p>Equipos, componentes y accesorios para armar, mejorar y cuidar tu setup.</p>
+          <div class="footer-whatsapp-card" aria-label="Atencion por WhatsApp">
+            <span><i class="fa-brands fa-whatsapp"></i></span>
+            <div>
+              <strong>Atencion por WhatsApp</strong>
+              <small>+51 999 999 999</small>
+            </div>
+          </div>
+        </div>
+
+        <nav class="footer-links" aria-label="Paginas principales">
+          <h3>Principal</h3>
+          <a href="/">Inicio</a>
+          <a href="/#catalogo">Catalogo</a>
+          <a href="/busqueda/">Buscar</a>
+          <a href="/carrito/">Carrito</a>
+        </nav>
+
+        <nav class="footer-links" aria-label="Ayuda">
+          <h3>Ayuda</h3>
+          <a href="/#catalogo">Productos</a>
+          <a href="/carrito/">Mi pedido</a>
+          <a href="/#catalogo">Ofertas</a>
+          <a href="/">Garantia</a>
+        </nav>
+
+        <nav class="footer-links" aria-label="Empresa">
+          <h3>Empresa</h3>
+          <a href="/">Nosotros</a>
+          <a href="/">Atencion</a>
+          <a href="/">Politicas</a>
+          <a href="/">Contacto</a>
+        </nav>
+
+        <div class="footer-contact">
+          <h3>Contacto</h3>
+          <p><i class="fa-solid fa-location-dot"></i> Lima, Peru</p>
+          <p><i class="fa-brands fa-whatsapp"></i> +51 999 999 999</p>
+          <p><i class="fa-solid fa-envelope"></i> ventas@tienda.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Copyright Tienda</span>
+        <a href="/">Politica de privacidad</a>
+        <a href="/">Terminos y condiciones</a>
+      </div>
+    </footer>
+
+    <div class="store-drawer-backdrop" id="cartBackdrop" hidden></div>
+    <section id="cartMount"></section>
+    <button id="floatingCartBtn" class="floating-cart" type="button" aria-label="Abrir carrito">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span id="floatingCartBadge">0</span>
+    </button>
+
+    <script type="module" src="/src/pages/home.js"></script>
+  </body>
+</html>

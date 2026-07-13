@@ -1,0 +1,56 @@
+.manage-products {
+  display: grid;
+  gap: 12px;
+}
+
+.manage-card {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 78px 1fr auto;
+  padding: 12px;
+}
+
+.manage-card img {
+  aspect-ratio: 1;
+  background: #e9eef6;
+  border-radius: 8px;
+  object-fit: cover;
+  width: 78px;
+}
+
+.manage-info {
+  display: grid;
+  gap: 4px;
+}
+
+.manage-info span {
+  color: var(--muted);
+}
+
+.manage-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: end;
+}
+
+.manage-actions button {
+  align-items: center;
+  background: #eef2f7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 38px;
+  min-width: 38px;
+  padding: 8px 12px;
+}
+
+.manage-actions button:hover {
+  background: #e2e8f0;
+}

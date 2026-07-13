@@ -1,0 +1,91 @@
+.product-form {
+  display: grid;
+  gap: 16px;
+}
+
+.product-form label {
+  color: var(--muted);
+  display: grid;
+  font-weight: 500;
+  gap: 7px;
+}
+
+.product-form input,
+.product-form select,
+.product-form textarea {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-height: 44px;
+  padding: 10px 12px;
+  width: 100%;
+}
+
+.form-grid,
+.extra-images-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.image-upload-box {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+
+.image-upload-preview {
+  align-items: center;
+  background: #e9eef6;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: var(--muted);
+  display: grid;
+  height: 130px;
+  justify-items: center;
+  overflow: hidden;
+}
+
+.image-upload-preview img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.upload-status {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.extra-image-field {
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  display: grid;
+  gap: 10px;
+  padding: 10px;
+}
+
+.file-mini {
+  font-size: 0.82rem;
+}
+
+.file-mini input {
+  background: #fff;
+  font-size: 0.82rem;
+  min-height: 38px;
+  padding: 7px 9px;
+}
+
+.check-row {
+  align-items: center;
+  display: flex !important;
+}
+
+.check-row input {
+  min-height: auto;
+  width: auto;
+}

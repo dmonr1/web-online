@@ -1,0 +1,37 @@
+.admin-sidebar {
+  background: #111827;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.admin-brand .brand-mark {
+  background: #fff;
+  color: #111827;
+}
+
+.admin-menu {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-menu-item {
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  color: #cbd5e1;
+  cursor: pointer;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 12px 14px;
+  text-align: left;
+}
+
+.admin-menu-item:hover,
+.admin-menu-item.is-active {
+  background: #1f2937;
+  color: #fff;
+}
