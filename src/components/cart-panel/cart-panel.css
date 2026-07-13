@@ -23,6 +23,7 @@
 }
 
 .cart-panel.is-open {
+  animation: component-scale-in 180ms ease both;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
@@ -94,6 +95,7 @@
 
 .cart-item {
   align-items: center;
+  animation: component-appear-up 260ms ease both;
   border-bottom: 0;
   border-radius: 9px;
   display: grid;
@@ -220,9 +222,18 @@
 }
 
 .cart-panel-actions {
+  animation: component-appear-up 260ms ease 80ms both;
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cart-item:nth-child(2n) {
+  animation-delay: 45ms;
+}
+
+.cart-item:nth-child(3n) {
+  animation-delay: 90ms;
 }
 
 .cart-panel-actions .whatsapp-button,
