@@ -2402,7 +2402,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
 .product-detail-actions {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
 }
 
 .product-detail-actions .primary-button,
@@ -2414,7 +2414,9 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   min-height: 42px;
   min-width: 0;
   padding: 10px 12px;
-  white-space: nowrap;
+  text-align: center;
+  white-space: normal;
+  width: 100%;
 }
 
 .product-detail-actions .primary-button.is-popping i {
