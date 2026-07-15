@@ -658,13 +658,13 @@ main {
 .ghost-button,
 .ghost-link {
   border: 0;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   display: inline-flex;
   font-weight: 600;
   justify-content: center;
   min-height: 44px;
-  padding: 12px 18px;
+  padding: 10px 16px;
 }
 
 .primary-link,
@@ -3025,6 +3025,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
 .admin-actions .ghost-button {
   align-items: center;
   gap: 9px;
+  font-size: 14px;
 }
 
 .admin-workspace {
@@ -3284,6 +3285,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   min-height: 40px;
   padding: 9px 11px;
   text-align: left;
+  font-size: 14px;
 }
 
 .category-filter.is-active {
@@ -3662,13 +3664,23 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   }
 
   .admin-page-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
     padding: 14px;
   }
 
+  .admin-page-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   .admin-panel {
-    height: calc(100vh - 28px);
-    min-height: 0;
-    padding: 18px;
+    gap: 16px;
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: calc(100vh - 28px);
+    padding: 16px;
   }
 
   .admin-list-head {
@@ -3685,9 +3697,30 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   }
 
   .admin-side-panel {
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    grid-template-rows: auto auto;
+    height: auto;
     min-height: 0;
     position: static;
+  }
+
+  .admin-list-panel {
+    height: auto;
+    min-height: 0;
+  }
+
+  #productListMount {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .filter-panel {
+    grid-template-rows: auto auto;
+  }
+
+  .category-filter-list {
+    max-height: 280px;
   }
 
   .admin-pagination {
