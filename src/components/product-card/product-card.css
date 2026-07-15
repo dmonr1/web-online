@@ -135,6 +135,10 @@
   z-index: 4;
 }
 
+.product-stock-badge[hidden] {
+  display: none;
+}
+
 .product-stock-badge::before {
   content: "\f06a";
   font-family: "Font Awesome 6 Free";
