@@ -50,6 +50,7 @@ const quickCategories = document.getElementById("quickCategories");
 const popularProductsRail = document.getElementById("popularProductsRail");
 const popularPrevBtn = document.getElementById("popularPrevBtn");
 const popularNextBtn = document.getElementById("popularNextBtn");
+const catalogLinks = document.querySelectorAll('a[href="#catalogo"]');
 const dealsProductsRail = document.getElementById("dealsProductsRail");
 const dealsPrevBtn = document.getElementById("dealsPrevBtn");
 const dealsNextBtn = document.getElementById("dealsNextBtn");
@@ -1007,6 +1008,12 @@ if (!isSearchPage) {
 loadMoreProductsBtn?.addEventListener("click", () => {
   visibleProductCount += PRODUCTS_PAGE_SIZE;
   renderProducts();
+});
+catalogLinks.forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    scrollToCatalog();
+  });
 });
 document.addEventListener("click", (event) => {
   const trigger = event.target.closest("[data-filter-toggle]");
