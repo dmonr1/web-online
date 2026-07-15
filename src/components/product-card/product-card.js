@@ -1,6 +1,6 @@
 import template from "./product-card.html?raw";
 import "./product-card.css";
-import { formatMoney } from "../../services/products-service.js";
+import { formatMoney, isProductOutOfStock } from "../../services/products-service.js";
 
 const lazyImageObserver =
   "IntersectionObserver" in window
@@ -40,13 +40,13 @@ export function createProductCard(product, onAdd, { isFavorite = false, onFavori
 
   const detailUrl = `/producto/?id=${encodeURIComponent(product.id)}`;
   const imageUrl = product.imagen_url || "";
-  const isOutOfStock = Number(product.stock || 0) <= 0;
+  const productIsOutOfStock = isProductOutOfStock(product);
   const media = element.querySelector("[data-detail-link]");
   const image = element.querySelector("[data-image]");
   const favoriteButton = element.querySelector("[data-favorite]");
   const addButton = element.querySelector("[data-add]");
   const stockBadge = element.querySelector("[data-stock-badge]");
-  element.classList.toggle("is-out-of-stock", isOutOfStock);
+  element.classList.toggle("is-out-of-stock", productIsOutOfStock);
   media.href = detailUrl;
   media.classList.add("is-loading");
   image.addEventListener("load", () => media.classList.remove("is-loading"));
@@ -55,13 +55,13 @@ export function createProductCard(product, onAdd, { isFavorite = false, onFavori
   element.querySelector("[data-brand]").textContent = product.marca || product.categoria || "Producto";
   element.querySelector("[data-name]").textContent = product.nombre || "Producto";
   element.querySelector("[data-price]").textContent = formatMoney(product.precio);
-  stockBadge.hidden = !isOutOfStock;
-  addButton.disabled = isOutOfStock;
-  addButton.setAttribute("aria-label", isOutOfStock ? "Producto agotado" : "Agregar producto al carrito");
-  addButton.querySelector("span").textContent = isOutOfStock ? "Agotado" : "Agregar";
-  addButton.querySelector("i").className = isOutOfStock ? "fa-solid fa-ban" : "fa-solid fa-cart-plus";
+  stockBadge.hidden = !productIsOutOfStock;
+  addButton.disabled = productIsOutOfStock;
+  addButton.setAttribute("aria-label", productIsOutOfStock ? "Producto agotado" : "Agregar producto al carrito");
+  addButton.querySelector("span").textContent = productIsOutOfStock ? "Agotado" : "Agregar";
+  addButton.querySelector("i").className = productIsOutOfStock ? "fa-solid fa-ban" : "fa-solid fa-cart-plus";
   addButton.addEventListener("click", (event) => {
-    if (isOutOfStock) return;
+    if (productIsOutOfStock) return;
     event.currentTarget.classList.remove("is-popping");
     void event.currentTarget.offsetWidth;
     event.currentTarget.classList.add("is-popping");

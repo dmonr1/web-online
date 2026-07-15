@@ -5,6 +5,28 @@ export function formatMoney(value) {
   return `${storeConfig.currency} ${Number(value || 0).toFixed(2)}`;
 }
 
+export function getProductStock(product) {
+  const rawStock =
+    product?.stock ??
+    product?.Stock ??
+    product?.STOCK ??
+    product?.cantidad ??
+    product?.Cantidad ??
+    product?.inventario ??
+    product?.Inventario ??
+    "";
+  const normalizedStock = String(rawStock).trim().replace(",", ".");
+  if (!normalizedStock) return null;
+
+  const stock = Number(normalizedStock);
+  return Number.isFinite(stock) ? stock : null;
+}
+
+export function isProductOutOfStock(product) {
+  const stock = getProductStock(product);
+  return stock !== null && stock <= 0;
+}
+
 export function parseCsv(text) {
   const lines = text.trim().split(/\r?\n/).filter(Boolean);
   const headers = splitCsvLine(lines.shift()).map((header) => header.trim());

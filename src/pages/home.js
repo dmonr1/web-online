@@ -4,7 +4,7 @@ import { setupFavoritesDropdown } from "../components/favorites-dropdown/favorit
 import { createProductCard } from "../components/product-card/product-card.js";
 import { createCartPanel, renderCart } from "../components/cart-panel/cart-panel.js";
 import { addToCart, getCart, saveCart } from "../services/cart-service.js";
-import { formatMoney, getProducts } from "../services/products-service.js";
+import { formatMoney, getProductStock, getProducts, isProductOutOfStock } from "../services/products-service.js";
 
 let products = [];
 let cart = getCart();
@@ -745,9 +745,9 @@ function renderHomeHighlights() {
   if (isSearchPage) return;
   renderQuickCategories();
 
-  const inStockProducts = products.filter((product) => Number(product.stock || 0) > 0);
+  const inStockProducts = products.filter((product) => !isProductOutOfStock(product));
   const popularProducts = [...inStockProducts]
-    .sort((first, second) => Number(second.stock || 0) - Number(first.stock || 0))
+    .sort((first, second) => Number(getProductStock(second) || 0) - Number(getProductStock(first) || 0))
     .slice(0, 8);
   const dealsProducts = [...inStockProducts]
     .sort((first, second) => Number(first.precio || 0) - Number(second.precio || 0))
@@ -848,7 +848,7 @@ function selectBrand(brand, { selected } = {}) {
 }
 
 function handleAddToCart(product) {
-  if (Number(product.stock || 0) <= 0) return;
+  if (isProductOutOfStock(product)) return;
   cart = addToCart(cart, product);
   saveCart(cart);
   refreshCart();

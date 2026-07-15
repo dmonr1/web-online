@@ -4,7 +4,7 @@ import { createProductForm } from "../components/product-form/product-form.js";
 import { createCategoryForm } from "../components/category-form/category-form.js";
 import { createBrandForm } from "../components/brand-form/brand-form.js";
 import { createProductList } from "../components/product-list/product-list.js";
-import { getBrands, getCategories, getProducts, sendAdminAction } from "../services/products-service.js";
+import { getBrands, getCategories, getProductStock, getProducts, sendAdminAction } from "../services/products-service.js";
 import { storeConfig } from "../config.js";
 
 let products = [];
@@ -89,7 +89,8 @@ function getFilteredProducts() {
   return products.filter((product) => {
     const isActive = product.activo !== "NO";
     const isHidden = product.activo === "NO";
-    const isLowStock = Number(product.stock || 0) <= 5;
+    const stock = getProductStock(product);
+    const isLowStock = stock !== null && stock <= 5;
     const searchText = [product.id, product.nombre, product.categoria, product.marca].join(" ").toLowerCase();
     const matchesCategory = !selectedCategory || product.categoria === selectedCategory;
     const matchesBrand = !selectedBrand || product.marca === selectedBrand;

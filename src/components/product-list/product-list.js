@@ -1,6 +1,6 @@
 import template from "./product-list.html?raw";
 import "./product-list.css";
-import { formatMoney } from "../../services/products-service.js";
+import { formatMoney, getProductStock } from "../../services/products-service.js";
 
 export function createProductList(products, onAction) {
   const wrapper = document.createElement("div");
@@ -15,8 +15,9 @@ export function createProductList(products, onAction) {
 
   products.forEach((product) => {
     const isHidden = product.activo === "NO";
-    const stock = Number(product.stock || 0);
-    const stockState = stock <= 5 ? "is-low" : "is-ok";
+    const stock = getProductStock(product);
+    const stockLabel = stock === null ? "Sin dato" : `${stock} unidades`;
+    const stockState = stock !== null && stock <= 5 ? "is-low" : "is-ok";
     const card = document.createElement("article");
     card.className = `manage-card ${isHidden ? "is-hidden-product" : ""}`;
     card.innerHTML = `
@@ -33,7 +34,7 @@ export function createProductList(products, onAction) {
         </div>
         <div class="manage-numbers">
           <strong>${formatMoney(product.precio)}</strong>
-          <span class="stock-pill ${stockState}"><i class="fa-solid fa-box"></i>${stock} unidades</span>
+          <span class="stock-pill ${stockState}"><i class="fa-solid fa-box"></i>${stockLabel}</span>
         </div>
       </div>
       <div class="manage-actions">

@@ -1,3 +1,5 @@
+import { isProductOutOfStock } from "./products-service.js";
+
 const CART_KEY = "ventas_cart";
 
 export function getCart() {
@@ -9,7 +11,7 @@ export function saveCart(cart) {
 }
 
 export function addToCart(cart, product) {
-  if (Number(product.stock || 0) <= 0) return cart;
+  if (isProductOutOfStock(product)) return cart;
 
   const existing = cart.find((item) => item.id === product.id);
 
