@@ -3419,11 +3419,13 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: auto;
     height: auto;
+    order: -1;
     position: static;
   }
 
   .admin-list-panel {
     height: auto;
+    order: 1;
   }
 
   #productListMount {
