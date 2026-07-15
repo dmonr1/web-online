@@ -15,6 +15,8 @@ let categoryForm = null;
 let brandForm = null;
 let selectedCategory = "";
 let selectedBrand = "";
+let selectedStatus = "active";
+let adminSearchQuery = "";
 
 const productFormMount = document.getElementById("productFormMount");
 const categoryFormMount = document.getElementById("categoryFormMount");
@@ -38,6 +40,13 @@ const brandDrawerTitle = document.getElementById("brandDrawerTitle");
 const connectionStatus = document.getElementById("connectionStatus");
 const categoryFilterList = document.getElementById("categoryFilterList");
 const brandFilterList = document.getElementById("brandFilterList");
+const adminSearchInput = document.getElementById("adminSearchInput");
+const adminStatusTabs = document.querySelectorAll("[data-status-filter]");
+const adminTotalCount = document.getElementById("adminTotalCount");
+const adminActiveCount = document.getElementById("adminActiveCount");
+const adminHiddenCount = document.getElementById("adminHiddenCount");
+const adminLowStockCount = document.getElementById("adminLowStockCount");
+const adminTitle = document.getElementById("adminTitle");
 
 function openDrawer(product = null) {
   productForm.setProduct(product);
@@ -75,9 +84,36 @@ function closeDrawer() {
 
 function getFilteredProducts() {
   return products.filter((product) => {
+    const isActive = product.activo !== "NO";
+    const isHidden = product.activo === "NO";
+    const isLowStock = Number(product.stock || 0) <= 5;
+    const searchText = [product.id, product.nombre, product.categoria, product.marca].join(" ").toLowerCase();
     const matchesCategory = !selectedCategory || product.categoria === selectedCategory;
     const matchesBrand = !selectedBrand || product.marca === selectedBrand;
-    return product.activo !== "NO" && matchesCategory && matchesBrand;
+    const matchesSearch = !adminSearchQuery || searchText.includes(adminSearchQuery.toLowerCase());
+    const matchesStatus =
+      selectedStatus === "all" ||
+      (selectedStatus === "active" && isActive) ||
+      (selectedStatus === "hidden" && isHidden) ||
+      (selectedStatus === "low-stock" && isActive && isLowStock);
+    return matchesStatus && matchesCategory && matchesBrand && matchesSearch;
+  });
+}
+
+function updateStats() {
+  const activeProducts = products.filter((product) => product.activo !== "NO");
+  const hiddenProducts = products.filter((product) => product.activo === "NO");
+  const lowStockProducts = activeProducts.filter((product) => Number(product.stock || 0) <= 5);
+
+  adminTotalCount.textContent = String(products.length);
+  adminActiveCount.textContent = String(activeProducts.length);
+  adminHiddenCount.textContent = String(hiddenProducts.length);
+  adminLowStockCount.textContent = String(lowStockProducts.length);
+}
+
+function updateStatusTabs() {
+  adminStatusTabs.forEach((button) => {
+    button.classList.toggle("is-active", button.dataset.statusFilter === selectedStatus);
   });
 }
 
@@ -160,8 +196,17 @@ function renderBrandFilters() {
 }
 
 function renderList() {
+  const filteredProducts = getFilteredProducts();
+  const titleByStatus = {
+    all: "Todos los productos",
+    active: "Productos activos",
+    hidden: "Productos ocultos",
+    "low-stock": "Stock bajo",
+  };
   productListMount.innerHTML = "";
-  productListMount.appendChild(createProductList(getFilteredProducts(), sendManageAction));
+  adminTitle.textContent = titleByStatus[selectedStatus] || "Inventario";
+  productListMount.appendChild(createProductList(filteredProducts, sendManageAction));
+  manageStatus.textContent = filteredProducts.length ? `${filteredProducts.length} productos en vista.` : "No hay productos para estos filtros.";
 }
 
 async function loadProducts() {
@@ -176,10 +221,11 @@ async function loadProducts() {
     ]);
     productForm.setCategories(categories);
     productForm.setBrands(brands);
+    updateStats();
+    updateStatusTabs();
     renderCategoryFilters();
     renderBrandFilters();
     renderList();
-    manageStatus.textContent = "";
     connectionStatus.innerHTML = '<i class="fa-solid fa-circle-check"></i> Conectado a Google Sheets';
   } catch (error) {
     console.error("[admin] No se pudo cargar productos.", error);
@@ -279,4 +325,15 @@ closeCategoryDrawerBtn.addEventListener("click", closeDrawer);
 closeBrandDrawerBtn.addEventListener("click", closeDrawer);
 drawerBackdrop.addEventListener("click", closeDrawer);
 reloadProductsBtn.addEventListener("click", loadProducts);
+adminSearchInput.addEventListener("input", () => {
+  adminSearchQuery = adminSearchInput.value.trim();
+  renderList();
+});
+adminStatusTabs.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedStatus = button.dataset.statusFilter;
+    updateStatusTabs();
+    renderList();
+  });
+});
 loadProducts();

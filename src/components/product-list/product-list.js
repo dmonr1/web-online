@@ -14,19 +14,35 @@ export function createProductList(products, onAction) {
   }
 
   products.forEach((product) => {
+    const isHidden = product.activo === "NO";
+    const stock = Number(product.stock || 0);
+    const stockState = stock <= 5 ? "is-low" : "is-ok";
     const card = document.createElement("article");
-    card.className = "manage-card";
+    card.className = `manage-card ${isHidden ? "is-hidden-product" : ""}`;
     card.innerHTML = `
       <img src="${product.imagen_url || ""}" alt="${product.nombre || "Producto"}" loading="lazy">
       <div class="manage-info">
-        <strong>${product.nombre || "Producto sin nombre"}</strong>
-        <span>ID: <b>${product.id}</b></span>
-        <span>${product.categoria || "Sin categoria"} / ${product.marca || "Sin marca"} - ${formatMoney(product.precio)}</span>
-        <span>Stock: <b>${product.stock || 0}</b> - Estado: <b>${product.activo || "SI"}</b></span>
+        <div class="manage-title-row">
+          <strong>${product.nombre || "Producto sin nombre"}</strong>
+          <span class="manage-status ${isHidden ? "is-hidden" : "is-active"}">${isHidden ? "Oculto" : "Activo"}</span>
+        </div>
+        <div class="manage-meta">
+          <span><i class="fa-solid fa-hashtag"></i>${product.id}</span>
+          <span><i class="fa-solid fa-layer-group"></i>${product.categoria || "Sin categoria"}</span>
+          <span><i class="fa-solid fa-tag"></i>${product.marca || "Sin marca"}</span>
+        </div>
+        <div class="manage-numbers">
+          <strong>${formatMoney(product.precio)}</strong>
+          <span class="stock-pill ${stockState}"><i class="fa-solid fa-box"></i>${stock} unidades</span>
+        </div>
       </div>
       <div class="manage-actions">
-        <button type="button" data-action="adjust_stock" data-delta="1" data-id="${product.id}">+1</button>
-        <button type="button" data-action="adjust_stock" data-delta="-1" data-id="${product.id}">-1</button>
+        <button type="button" data-action="adjust_stock" data-delta="-1" data-id="${product.id}" title="Quitar stock">
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <button type="button" data-action="adjust_stock" data-delta="1" data-id="${product.id}" title="Agregar stock">
+          <i class="fa-solid fa-plus"></i>
+        </button>
         <button type="button" data-action="edit" data-id="${product.id}" title="Modificar">
           <i class="fa-solid fa-pen-to-square"></i>
         </button>

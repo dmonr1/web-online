@@ -13,25 +13,78 @@
       <section class="admin-panel">
         <header class="admin-header">
           <div>
-            <h1 id="adminTitle">Productos activos</h1>
+            <p class="eyebrow">Panel de gestion</p>
+            <h1 id="adminTitle">Inventario</h1>
           </div>
           <div class="connection-status" id="connectionStatus">
             <i class="fa-solid fa-circle-notch fa-spin"></i>
             Conectando
           </div>
           <div class="admin-actions">
-            <button id="newProductBtn" class="primary-button" type="button">Nuevo producto</button>
-            <button id="reloadProductsBtn" class="ghost-button" type="button">Recargar</button>
-            <a class="ghost-button" href="/">Ver tienda</a>
+            <button id="newProductBtn" class="primary-button" type="button">
+              <i class="fa-solid fa-plus"></i>
+              Nuevo producto
+            </button>
+            <button id="reloadProductsBtn" class="ghost-button" type="button">
+              <i class="fa-solid fa-rotate-right"></i>
+              Recargar
+            </button>
+            <a class="ghost-button" href="/">
+              <i class="fa-solid fa-store"></i>
+              Ver tienda
+            </a>
           </div>
         </header>
 
+        <section class="admin-stats-grid" aria-label="Resumen de inventario">
+          <article class="admin-stat-card">
+            <span><i class="fa-solid fa-boxes-stacked"></i></span>
+            <div>
+              <small>Total</small>
+              <strong id="adminTotalCount">0</strong>
+            </div>
+          </article>
+          <article class="admin-stat-card">
+            <span><i class="fa-solid fa-eye"></i></span>
+            <div>
+              <small>Activos</small>
+              <strong id="adminActiveCount">0</strong>
+            </div>
+          </article>
+          <article class="admin-stat-card">
+            <span><i class="fa-solid fa-eye-slash"></i></span>
+            <div>
+              <small>Ocultos</small>
+              <strong id="adminHiddenCount">0</strong>
+            </div>
+          </article>
+          <article class="admin-stat-card">
+            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
+            <div>
+              <small>Stock bajo</small>
+              <strong id="adminLowStockCount">0</strong>
+            </div>
+          </article>
+        </section>
+
         <section class="admin-workspace">
           <section class="admin-list-panel">
-            <div class="section-head">
+            <div class="admin-list-head">
               <div>
                 <p class="eyebrow">Inventario</p>
                 <h2>Lista de productos</h2>
+              </div>
+              <div class="admin-list-tools">
+                <label class="admin-search">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input id="adminSearchInput" type="search" placeholder="Buscar producto, categoria o marca" />
+                </label>
+                <div class="admin-status-tabs" aria-label="Estado de productos">
+                  <button class="is-active" type="button" data-status-filter="active">Activos</button>
+                  <button type="button" data-status-filter="all">Todos</button>
+                  <button type="button" data-status-filter="hidden">Ocultos</button>
+                  <button type="button" data-status-filter="low-stock">Stock bajo</button>
+                </div>
               </div>
             </div>
 
