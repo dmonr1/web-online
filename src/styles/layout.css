@@ -2982,7 +2982,9 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   gap: 14px;
   grid-template-rows: auto minmax(0, 1fr);
   height: calc(100vh - 28px);
+  max-width: 100%;
   min-height: 0;
+  overflow: hidden;
   padding: 18px;
   width: 100%;
 }
@@ -3009,8 +3011,12 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   font-weight: 500;
   gap: 8px;
   justify-self: center;
+  max-width: 100%;
   min-height: 34px;
+  min-width: 0;
+  overflow: hidden;
   padding: 7px 12px;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -3026,6 +3032,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   align-items: center;
   gap: 9px;
   font-size: 14px;
+  white-space: nowrap;
 }
 
 .admin-workspace {
@@ -3368,6 +3375,62 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   border-radius: 999px;
   min-height: 36px;
   padding: 8px 12px;
+}
+
+@media (max-width: 1120px) {
+  .admin-page-shell {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .admin-page-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .admin-panel {
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: calc(100vh - 28px);
+    overflow: visible;
+  }
+
+  .admin-header {
+    align-items: start;
+    grid-template-columns: 1fr;
+  }
+
+  .connection-status {
+    justify-self: start;
+    width: fit-content;
+  }
+
+  .admin-actions {
+    justify-content: start;
+    width: 100%;
+  }
+
+  .admin-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-side-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    height: auto;
+    position: static;
+  }
+
+  .admin-list-panel {
+    height: auto;
+  }
+
+  #productListMount {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
 }
 
 @media (max-width: 762px) {
