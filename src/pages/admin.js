@@ -17,6 +17,8 @@ let selectedCategory = "";
 let selectedBrand = "";
 let selectedStatus = "active";
 let adminSearchQuery = "";
+let rowsPerPage = 10;
+let currentPage = 1;
 
 const productFormMount = document.getElementById("productFormMount");
 const categoryFormMount = document.getElementById("categoryFormMount");
@@ -42,11 +44,12 @@ const categoryFilterList = document.getElementById("categoryFilterList");
 const brandFilterList = document.getElementById("brandFilterList");
 const adminSearchInput = document.getElementById("adminSearchInput");
 const adminStatusTabs = document.querySelectorAll("[data-status-filter]");
-const adminTotalCount = document.getElementById("adminTotalCount");
-const adminActiveCount = document.getElementById("adminActiveCount");
-const adminHiddenCount = document.getElementById("adminHiddenCount");
-const adminLowStockCount = document.getElementById("adminLowStockCount");
 const adminTitle = document.getElementById("adminTitle");
+const adminRowsPerPage = document.getElementById("adminRowsPerPage");
+const adminPageInfo = document.getElementById("adminPageInfo");
+const adminPrevPageBtn = document.getElementById("adminPrevPageBtn");
+const adminNextPageBtn = document.getElementById("adminNextPageBtn");
+const sidePanelToggles = document.querySelectorAll("[data-side-toggle]");
 
 function openDrawer(product = null) {
   productForm.setProduct(product);
@@ -100,21 +103,14 @@ function getFilteredProducts() {
   });
 }
 
-function updateStats() {
-  const activeProducts = products.filter((product) => product.activo !== "NO");
-  const hiddenProducts = products.filter((product) => product.activo === "NO");
-  const lowStockProducts = activeProducts.filter((product) => Number(product.stock || 0) <= 5);
-
-  adminTotalCount.textContent = String(products.length);
-  adminActiveCount.textContent = String(activeProducts.length);
-  adminHiddenCount.textContent = String(hiddenProducts.length);
-  adminLowStockCount.textContent = String(lowStockProducts.length);
-}
-
 function updateStatusTabs() {
   adminStatusTabs.forEach((button) => {
     button.classList.toggle("is-active", button.dataset.statusFilter === selectedStatus);
   });
+}
+
+function resetPage() {
+  currentPage = 1;
 }
 
 function renderCategoryFilters() {
@@ -126,6 +122,7 @@ function renderCategoryFilters() {
   allButton.textContent = "Todas";
   allButton.addEventListener("click", () => {
     selectedCategory = "";
+    resetPage();
     renderCategoryFilters();
     renderList();
   });
@@ -147,6 +144,7 @@ function renderCategoryFilters() {
     `;
     row.querySelector(".category-filter").addEventListener("click", () => {
       selectedCategory = category.nombre;
+      resetPage();
       renderCategoryFilters();
       renderList();
     });
@@ -165,6 +163,7 @@ function renderBrandFilters() {
   allButton.textContent = "Todas";
   allButton.addEventListener("click", () => {
     selectedBrand = "";
+    resetPage();
     renderBrandFilters();
     renderList();
   });
@@ -186,6 +185,7 @@ function renderBrandFilters() {
     `;
     row.querySelector(".category-filter").addEventListener("click", () => {
       selectedBrand = brand.nombre;
+      resetPage();
       renderBrandFilters();
       renderList();
     });
@@ -197,6 +197,10 @@ function renderBrandFilters() {
 
 function renderList() {
   const filteredProducts = getFilteredProducts();
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / rowsPerPage));
+  currentPage = Math.min(currentPage, totalPages);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const visibleProducts = filteredProducts.slice(startIndex, startIndex + rowsPerPage);
   const titleByStatus = {
     all: "Todos los productos",
     active: "Productos activos",
@@ -205,8 +209,14 @@ function renderList() {
   };
   productListMount.innerHTML = "";
   adminTitle.textContent = titleByStatus[selectedStatus] || "Inventario";
-  productListMount.appendChild(createProductList(filteredProducts, sendManageAction));
-  manageStatus.textContent = filteredProducts.length ? `${filteredProducts.length} productos en vista.` : "No hay productos para estos filtros.";
+  productListMount.appendChild(createProductList(visibleProducts, sendManageAction));
+  adminRowsPerPage.value = String(rowsPerPage);
+  adminPrevPageBtn.disabled = currentPage <= 1;
+  adminNextPageBtn.disabled = currentPage >= totalPages || !filteredProducts.length;
+  adminPageInfo.textContent = filteredProducts.length
+    ? `${startIndex + 1}-${Math.min(startIndex + rowsPerPage, filteredProducts.length)} de ${filteredProducts.length}`
+    : "0 productos";
+  manageStatus.textContent = filteredProducts.length ? "" : "No hay productos para estos filtros.";
 }
 
 async function loadProducts() {
@@ -221,7 +231,6 @@ async function loadProducts() {
     ]);
     productForm.setCategories(categories);
     productForm.setBrands(brands);
-    updateStats();
     updateStatusTabs();
     renderCategoryFilters();
     renderBrandFilters();
@@ -327,13 +336,37 @@ drawerBackdrop.addEventListener("click", closeDrawer);
 reloadProductsBtn.addEventListener("click", loadProducts);
 adminSearchInput.addEventListener("input", () => {
   adminSearchQuery = adminSearchInput.value.trim();
+  resetPage();
   renderList();
 });
 adminStatusTabs.forEach((button) => {
   button.addEventListener("click", () => {
     selectedStatus = button.dataset.statusFilter;
+    resetPage();
     updateStatusTabs();
     renderList();
+  });
+});
+adminRowsPerPage.addEventListener("change", () => {
+  rowsPerPage = Number(adminRowsPerPage.value || 10);
+  resetPage();
+  renderList();
+});
+adminPrevPageBtn.addEventListener("click", () => {
+  currentPage = Math.max(1, currentPage - 1);
+  renderList();
+});
+adminNextPageBtn.addEventListener("click", () => {
+  currentPage += 1;
+  renderList();
+});
+sidePanelToggles.forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const panel = toggle.closest(".admin-filter-panel");
+    if (!panel) return;
+    const isOpen = !panel.classList.contains("is-open");
+    panel.classList.toggle("is-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
   });
 });
 loadProducts();

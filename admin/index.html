@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/src/styles/base.css" />
     <link rel="stylesheet" href="/src/styles/layout.css" />
   </head>
-  <body>
+  <body class="admin-page-body">
     <main class="admin-page-shell">
       <section class="admin-panel">
         <header class="admin-header">
@@ -36,37 +36,6 @@
           </div>
         </header>
 
-        <section class="admin-stats-grid" aria-label="Resumen de inventario">
-          <article class="admin-stat-card">
-            <span><i class="fa-solid fa-boxes-stacked"></i></span>
-            <div>
-              <small>Total</small>
-              <strong id="adminTotalCount">0</strong>
-            </div>
-          </article>
-          <article class="admin-stat-card">
-            <span><i class="fa-solid fa-eye"></i></span>
-            <div>
-              <small>Activos</small>
-              <strong id="adminActiveCount">0</strong>
-            </div>
-          </article>
-          <article class="admin-stat-card">
-            <span><i class="fa-solid fa-eye-slash"></i></span>
-            <div>
-              <small>Ocultos</small>
-              <strong id="adminHiddenCount">0</strong>
-            </div>
-          </article>
-          <article class="admin-stat-card">
-            <span><i class="fa-solid fa-triangle-exclamation"></i></span>
-            <div>
-              <small>Stock bajo</small>
-              <strong id="adminLowStockCount">0</strong>
-            </div>
-          </article>
-        </section>
-
         <section class="admin-workspace">
           <section class="admin-list-panel">
             <div class="admin-list-head">
@@ -89,26 +58,48 @@
             </div>
 
             <div id="productListMount"></div>
+            <div class="admin-pagination" aria-label="Paginacion de productos">
+              <label>
+                <span>Filas</span>
+                <select id="adminRowsPerPage">
+                  <option value="10" selected>10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
+                </select>
+              </label>
+              <span id="adminPageInfo">0 productos</span>
+              <div>
+                <button id="adminPrevPageBtn" type="button" aria-label="Pagina anterior">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button id="adminNextPageBtn" type="button" aria-label="Pagina siguiente">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
             <p id="manageStatus" class="form-status" role="status"></p>
           </section>
 
           <aside class="admin-side-panel">
-            <div class="filter-panel">
+            <div class="filter-panel admin-filter-panel is-open">
               <div class="side-panel-head">
-                <p class="eyebrow">Categorias</p>
-                <button id="newCategoryBtn" class="ghost-button icon-button" type="button" title="Nueva categoria">
-                  <i class="fa-solid fa-plus"></i>
+                <button class="side-panel-toggle" type="button" data-side-toggle aria-expanded="true">
+                  <span>Categorias</span>
+                  <i class="fa-solid fa-chevron-down"></i>
                 </button>
+                <button id="newCategoryBtn" class="ghost-button icon-button" type="button" title="Nueva categoria"><i class="fa-solid fa-plus"></i></button>
               </div>
               <div id="categoryFilterList" class="category-filter-list"></div>
             </div>
 
-            <div class="filter-panel">
+            <div class="filter-panel admin-filter-panel is-open">
               <div class="side-panel-head">
-                <p class="eyebrow">Marcas</p>
-                <button id="newBrandBtn" class="ghost-button icon-button" type="button" title="Nueva marca">
-                  <i class="fa-solid fa-plus"></i>
+                <button class="side-panel-toggle" type="button" data-side-toggle aria-expanded="true">
+                  <span>Marcas</span>
+                  <i class="fa-solid fa-chevron-down"></i>
                 </button>
+                <button id="newBrandBtn" class="ghost-button icon-button" type="button" title="Nueva marca"><i class="fa-solid fa-plus"></i></button>
               </div>
               <div id="brandFilterList" class="category-filter-list"></div>
             </div>
