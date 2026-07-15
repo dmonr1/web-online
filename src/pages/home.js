@@ -57,6 +57,7 @@ const heroCarouselTrack = document.getElementById("heroCarouselTrack");
 const heroCarouselDots = document.getElementById("heroCarouselDots");
 const heroSlides = heroCarouselTrack ? [...heroCarouselTrack.querySelectorAll(".store-hero-slide")] : [];
 const heroDots = heroCarouselDots ? [...heroCarouselDots.querySelectorAll("button")] : [];
+const catalogSection = document.getElementById("catalogo");
 const isSearchPage = document.body.dataset.page === "search";
 let currentHeroSlide = 0;
 let heroCarouselTimer = null;
@@ -878,6 +879,13 @@ function updateFavoritesButton() {
   favoritesBtn.querySelector("span").textContent = showOnlyFavorites ? `Favoritos (${favorites.length})` : "Favoritos";
 }
 
+function scrollToCatalog() {
+  catalogSection?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
 function handleSearchSubmit(event) {
   event.preventDefault();
   const query = searchInput.value.trim();
@@ -993,6 +1001,7 @@ if (!isSearchPage) {
     updateFavoritesButton();
     resetVisibleProducts();
     renderProducts();
+    window.requestAnimationFrame(scrollToCatalog);
   });
 }
 loadMoreProductsBtn?.addEventListener("click", () => {
