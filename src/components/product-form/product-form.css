@@ -1,13 +1,14 @@
 .product-form {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 
 .product-form label {
   color: var(--muted);
   display: grid;
+  font-size: 0.82rem;
   font-weight: 500;
-  gap: 7px;
+  gap: 6px;
 }
 
 .product-form input,
@@ -15,25 +16,73 @@
 .product-form textarea {
   border: 1px solid var(--line);
   border-radius: 8px;
-  min-height: 44px;
-  padding: 10px 12px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  min-height: 38px;
+  outline: 0;
+  padding: 8px 10px;
   width: 100%;
+}
+
+.product-form input:focus,
+.product-form select:focus,
+.product-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+.product-form select {
+  appearance: none;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%) calc(100% - 16px) 52% / 6px 6px no-repeat,
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%) calc(100% - 11px) 52% / 6px 6px no-repeat,
+    #fff;
+  padding-right: 30px;
+}
+
+.product-form textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.product-form input[type="file"] {
+  background: #fff;
+  border: 1px dashed #cbd5e1;
+  cursor: pointer;
+  font-size: 0.8rem;
+  min-height: 36px;
+  padding: 7px;
+}
+
+.product-form input[type="file"]::file-selector-button {
+  background: rgb(241 254 255);
+  border: 0;
+  border-radius: 999px;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  margin-right: 10px;
+  min-height: 24px;
+  padding: 5px 10px;
 }
 
 .form-grid,
 .extra-images-grid {
   display: grid;
-  gap: 14px;
+  gap: 10px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .image-upload-box {
   background: #f8fafc;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 12px;
   display: grid;
-  gap: 12px;
-  padding: 14px;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  padding: 12px;
 }
 
 .image-upload-preview {
@@ -43,7 +92,8 @@
   border-radius: 10px;
   color: var(--muted);
   display: grid;
-  height: 130px;
+  font-size: 0.78rem;
+  height: 92px;
   justify-items: center;
   overflow: hidden;
 }
@@ -56,16 +106,17 @@
 
 .upload-status {
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.78rem;
+  grid-column: 1 / -1;
   margin: 0;
 }
 
 .extra-image-field {
   background: #f8fafc;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 10px;
   display: grid;
-  gap: 10px;
+  gap: 8px;
   padding: 10px;
 }
 
@@ -75,17 +126,43 @@
 
 .file-mini input {
   background: #fff;
-  font-size: 0.82rem;
-  min-height: 38px;
-  padding: 7px 9px;
+  font-size: 0.76rem;
+  min-height: 34px;
+  padding: 6px;
 }
 
 .check-row {
   align-items: center;
   display: flex !important;
+  gap: 9px;
+  margin-top: 2px;
 }
 
 .check-row input {
   min-height: auto;
   width: auto;
+}
+
+.product-form .primary-button {
+  align-items: center;
+  border-radius: 10px;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 14px;
+}
+
+.product-form .form-status {
+  font-size: 0.82rem;
+}
+
+@media (max-width: 680px) {
+  .form-grid,
+  .extra-images-grid,
+  .image-upload-box {
+    grid-template-columns: 1fr;
+  }
+
+  .image-upload-preview {
+    height: 110px;
+  }
 }
