@@ -1196,7 +1196,9 @@ main {
   margin-left: auto;
   margin-right: auto;
   padding-top: 18px;
+  position: relative;
   width: 94%;
+  z-index: 80;
 }
 
 .catalog-filter-bar {
@@ -1206,6 +1208,8 @@ main {
   gap: 14px;
   justify-content: flex-end;
   min-width: 0;
+  position: relative;
+  z-index: 85;
 }
 
 .catalog-sort-control {
@@ -1236,6 +1240,11 @@ main {
   min-width: 132px;
   position: relative;
   width: max-content;
+  z-index: 1;
+}
+
+.custom-select.is-open {
+  z-index: 120;
 }
 
 .custom-select[data-select-id="brandFilter"] {
@@ -1310,7 +1319,7 @@ main {
   top: calc(100% + 8px);
   transform: translateY(-6px);
   transition: opacity 150ms ease, transform 150ms ease;
-  z-index: 25;
+  z-index: 130;
 }
 
 .custom-select.is-open .custom-select-menu {
@@ -1385,7 +1394,9 @@ main {
   grid-template-columns: minmax(0, 1fr);
   margin-left: auto;
   margin-right: auto;
+  position: relative;
   width: 94%;
+  z-index: 1;
 }
 
 .catalog-sidebar {
