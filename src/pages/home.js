@@ -1023,9 +1023,10 @@ document.addEventListener("click", (event) => {
   if (!currentGroup || !accordion) return;
 
   const shouldOpen = !currentGroup.classList.contains("is-open");
-  accordion.querySelectorAll(".filter-group.is-open").forEach((group) => {
-    if (group !== currentGroup) group.classList.remove("is-open");
-  });
+  if (shouldOpen) {
+    const openGroups = [...accordion.querySelectorAll(".filter-group.is-open")].filter((group) => group !== currentGroup);
+    if (openGroups.length >= 2) openGroups[0].classList.remove("is-open");
+  }
   currentGroup.classList.toggle("is-open", shouldOpen);
 });
 heroCarouselDots?.addEventListener("click", (event) => {
