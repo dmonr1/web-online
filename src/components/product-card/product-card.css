@@ -15,6 +15,11 @@
   transform: translateY(-2px);
 }
 
+.product-card.is-out-of-stock .product-media img {
+  filter: grayscale(0.55);
+  opacity: 0.72;
+}
+
 .product-card.is-search-match {
   animation: search-result-reveal 460ms ease both;
   box-shadow: 0 12px 26px rgba(16, 185, 129, 0.08);
@@ -111,6 +116,30 @@
   display: block;
   overflow: hidden;
   position: relative;
+}
+
+.product-stock-badge {
+  align-items: center;
+  background: rgba(220, 38, 38, 0.94);
+  border-radius: 999px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 0.74rem;
+  font-weight: 800;
+  gap: 6px;
+  left: 12px;
+  min-height: 28px;
+  padding: 6px 10px;
+  position: absolute;
+  top: 12px;
+  z-index: 4;
+}
+
+.product-stock-badge::before {
+  content: "\f06a";
+  font-family: "Font Awesome 6 Free";
+  font-size: 0.72rem;
+  font-weight: 900;
 }
 
 .product-media::before {
@@ -280,6 +309,18 @@
 .add-button:hover {
   background: #ecfdf5;
   border-color: var(--accent);
+}
+
+.add-button:disabled {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.add-button:disabled:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
 }
 
 .add-button.is-popping i {

@@ -198,6 +198,7 @@ function createBreadcrumbs(targetProduct) {
 }
 
 function addQuantityToCart(targetProduct, qty) {
+  if (Number(targetProduct.stock || 0) <= 0) return;
   for (let count = 0; count < qty; count += 1) {
     cart = addToCart(cart, targetProduct);
   }
@@ -213,8 +214,9 @@ function addQuantityToCart(targetProduct, qty) {
 
 function createPurchasePanel(targetProduct) {
   let qty = 1;
+  const isOutOfStock = Number(targetProduct.stock || 0) <= 0;
   const panel = document.createElement("aside");
-  panel.className = "product-buy-panel";
+  panel.className = `product-buy-panel ${isOutOfStock ? "is-out-of-stock" : ""}`;
 
   const brand = document.createElement("p");
   brand.className = "product-detail-brand";
@@ -228,8 +230,10 @@ function createPurchasePanel(targetProduct) {
   price.textContent = formatMoney(targetProduct.precio);
 
   const stock = document.createElement("span");
-  stock.className = "product-stock-pill";
-  stock.innerHTML = `<i class="fa-solid fa-box"></i> Stock disponible: ${targetProduct.stock || 0}`;
+  stock.className = `product-stock-pill ${isOutOfStock ? "is-out-of-stock" : ""}`;
+  stock.innerHTML = isOutOfStock
+    ? '<i class="fa-solid fa-circle-exclamation"></i> Producto agotado'
+    : `<i class="fa-solid fa-box"></i> Stock disponible: ${targetProduct.stock || 0}`;
 
   const qtyRow = document.createElement("div");
   qtyRow.className = "detail-qty-row";
@@ -241,7 +245,7 @@ function createPurchasePanel(targetProduct) {
   decreaseBtn.type = "button";
   decreaseBtn.innerHTML = '<i class="fa-solid fa-minus"></i>';
   const qtyValue = document.createElement("strong");
-  qtyValue.textContent = "Agregar";
+  qtyValue.textContent = isOutOfStock ? "Sin stock" : "Agregar";
   const addQtyValue = document.createElement("span");
   addQtyValue.className = "add-button-qty";
   addQtyValue.textContent = String(qty);
@@ -252,10 +256,12 @@ function createPurchasePanel(targetProduct) {
   qtyRow.append(qtyLabel, qtyControls);
 
   decreaseBtn.addEventListener("click", () => {
+    if (isOutOfStock) return;
     qty = Math.max(1, qty - 1);
     addQtyValue.textContent = String(qty);
   });
   increaseBtn.addEventListener("click", () => {
+    if (isOutOfStock) return;
     qty += 1;
     addQtyValue.textContent = String(qty);
   });
@@ -266,9 +272,13 @@ function createPurchasePanel(targetProduct) {
   const addButton = document.createElement("button");
   addButton.className = "primary-button";
   addButton.type = "button";
-  addButton.innerHTML = '<i class="fa-solid fa-cart-plus"></i><span>Agregar al carrito</span>';
-  addButton.appendChild(addQtyValue);
+  addButton.disabled = isOutOfStock;
+  addButton.innerHTML = isOutOfStock
+    ? '<i class="fa-solid fa-ban"></i><span>Producto agotado</span>'
+    : '<i class="fa-solid fa-cart-plus"></i><span>Agregar al carrito</span>';
+  if (!isOutOfStock) addButton.appendChild(addQtyValue);
   addButton.addEventListener("click", () => {
+    if (isOutOfStock) return;
     addButton.classList.remove("is-popping");
     void addButton.offsetWidth;
     addButton.classList.add("is-popping");
@@ -293,10 +303,21 @@ function createPurchasePanel(targetProduct) {
   whatsappLink.href = buildWhatsappUrl([{ ...targetProduct, qty }]);
   whatsappLink.target = "_blank";
   whatsappLink.rel = "noopener";
-  whatsappLink.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Continuar en WhatsApp';
+  whatsappLink.innerHTML = isOutOfStock
+    ? '<i class="fa-solid fa-ban"></i> Sin stock disponible'
+    : '<i class="fa-brands fa-whatsapp"></i> Continuar en WhatsApp';
+  if (isOutOfStock) {
+    whatsappLink.removeAttribute("href");
+    whatsappLink.removeAttribute("target");
+    whatsappLink.setAttribute("aria-disabled", "true");
+  }
   whatsappLink.addEventListener("click", () => {
+    if (isOutOfStock) return;
     whatsappLink.href = buildWhatsappUrl([{ ...targetProduct, qty }]);
   });
+
+  decreaseBtn.disabled = isOutOfStock;
+  increaseBtn.disabled = isOutOfStock;
 
   actions.append(addButton, whatsappLink);
 

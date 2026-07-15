@@ -9,6 +9,8 @@ export function saveCart(cart) {
 }
 
 export function addToCart(cart, product) {
+  if (Number(product.stock || 0) <= 0) return cart;
+
   const existing = cart.find((item) => item.id === product.id);
 
   if (existing) {

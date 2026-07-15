@@ -2335,6 +2335,10 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   top: 104px;
 }
 
+.product-buy-panel.is-out-of-stock {
+  box-shadow: 0 18px 38px rgba(220, 38, 38, 0.1);
+}
+
 .product-detail-brand {
   color: var(--muted);
   font-size: 0.86rem;
@@ -2366,6 +2370,11 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   gap: 8px;
   justify-self: start;
   padding: 8px 12px;
+}
+
+.product-stock-pill.is-out-of-stock {
+  background: #fef2f2;
+  color: #dc2626;
 }
 
 .detail-qty-row {
@@ -2409,6 +2418,13 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   color: var(--accent-dark);
 }
 
+.detail-qty-controls button:disabled {
+  background: #e5e7eb;
+  box-shadow: none;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
 .detail-qty-controls strong {
   color: var(--ink);
   font-size: 0.8rem;
@@ -2439,6 +2455,19 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
 
 .product-detail-actions .primary-button.is-popping i {
   animation: cart-plus-pop 360ms ease;
+}
+
+.product-detail-actions .primary-button:disabled,
+.detail-whatsapp[aria-disabled="true"] {
+  background: #e5e7eb;
+  color: #94a3b8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.product-detail-actions .primary-button:disabled .add-button-qty {
+  background: rgba(148, 163, 184, 0.16);
+  color: #94a3b8;
 }
 
 .add-button-qty {

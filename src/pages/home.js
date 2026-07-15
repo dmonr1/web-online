@@ -848,6 +848,7 @@ function selectBrand(brand, { selected } = {}) {
 }
 
 function handleAddToCart(product) {
+  if (Number(product.stock || 0) <= 0) return;
   cart = addToCart(cart, product);
   saveCart(cart);
   refreshCart();
