@@ -776,7 +776,7 @@ main {
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  justify-content: flex-start;
+  justify-content: safe center;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
@@ -3621,7 +3621,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
     display: flex;
     gap: 12px;
     flex-wrap: nowrap;
-    justify-content: flex-start;
+    justify-content: safe center;
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
