@@ -555,7 +555,7 @@ main {
 .store-hero {
   display: grid;
   justify-items: center;
-  padding: 40px 0 72.5px;
+  padding: 40px 0 40px;
 }
 
 .store-hero-carousel {
@@ -755,7 +755,7 @@ main {
   display: flex;
   gap: 18px;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 0;
   padding-top: 10px;
 }
 
@@ -776,14 +776,14 @@ main {
   display: flex;
   flex-wrap: nowrap;
   gap: 12px;
-  justify-content: safe center;
+  justify-content: flex-start;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
   min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 4px 2px 14px;
+  padding: 4px 2px 30px;
   scroll-behavior: smooth;
   scrollbar-width: none;
   cursor: grab;
@@ -799,6 +799,10 @@ main {
 .quick-category-grid.is-dragging {
   cursor: grabbing;
   scroll-behavior: auto;
+}
+
+.quick-category-grid.is-centered {
+  justify-content: center;
 }
 
 .quick-category-card {
@@ -3621,13 +3625,13 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
     display: flex;
     gap: 12px;
     flex-wrap: nowrap;
-    justify-content: safe center;
+    justify-content: flex-start;
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-    padding-bottom: 14px;
+    padding-bottom: 30px;
     width: 100%;
   }
 

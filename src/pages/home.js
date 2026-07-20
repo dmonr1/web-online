@@ -202,6 +202,12 @@ function setupDragScrollRail(rail) {
   );
 }
 
+function updateQuickCategoriesAlignment() {
+  if (!quickCategories) return;
+  const hasOverflow = quickCategories.scrollWidth > quickCategories.clientWidth + 1;
+  quickCategories.classList.toggle("is-centered", !hasOverflow);
+}
+
 function scrollDeals(direction = 1) {
   scrollRail(dealsProductsRail, direction);
 }
@@ -694,6 +700,7 @@ function renderHomeSkeletons() {
       fragment.appendChild(chip);
     });
     quickCategories.appendChild(fragment);
+    updateQuickCategoriesAlignment();
   }
 
   renderProductSkeletons(popularProductsRail, 6);
@@ -748,6 +755,7 @@ function renderQuickCategories() {
     fragment.appendChild(link);
   });
   quickCategories.appendChild(fragment);
+  updateQuickCategoriesAlignment();
 }
 
 function renderProductRail(container, items) {
@@ -1125,6 +1133,7 @@ document.addEventListener("click", (event) => {
   closeCartPanel();
 });
 window.addEventListener("scroll", updateHeaderState, { passive: true });
+window.addEventListener("resize", updateQuickCategoriesAlignment);
 startHeroCarousel();
 updateFavoritesButton();
 updateHeaderState();
