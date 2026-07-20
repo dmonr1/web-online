@@ -147,6 +147,61 @@ function scrollRail(rail, direction = 1) {
   });
 }
 
+function setupDragScrollRail(rail) {
+  if (!rail) return;
+  let startX = 0;
+  let startY = 0;
+  let startScrollLeft = 0;
+  let pointerId = null;
+  let isDragging = false;
+  let didDrag = false;
+
+  rail.addEventListener("pointerdown", (event) => {
+    if (event.button > 0) return;
+    pointerId = event.pointerId;
+    startX = event.clientX;
+    startY = event.clientY;
+    startScrollLeft = rail.scrollLeft;
+    isDragging = true;
+    didDrag = false;
+    rail.classList.add("is-dragging");
+    rail.setPointerCapture?.(event.pointerId);
+  });
+
+  rail.addEventListener("pointermove", (event) => {
+    if (!isDragging || event.pointerId !== pointerId) return;
+    const distanceX = event.clientX - startX;
+    const distanceY = event.clientY - startY;
+    if (Math.abs(distanceX) < 4 || Math.abs(distanceX) < Math.abs(distanceY)) return;
+    didDrag = true;
+    rail.scrollLeft = startScrollLeft - distanceX;
+    event.preventDefault();
+  });
+
+  const stopDragging = (event) => {
+    if (!isDragging || event.pointerId !== pointerId) return;
+    rail.releasePointerCapture?.(event.pointerId);
+    rail.classList.remove("is-dragging");
+    isDragging = false;
+    pointerId = null;
+    window.setTimeout(() => {
+      didDrag = false;
+    }, 0);
+  };
+
+  rail.addEventListener("pointerup", stopDragging);
+  rail.addEventListener("pointercancel", stopDragging);
+  rail.addEventListener(
+    "click",
+    (event) => {
+      if (!didDrag) return;
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    true,
+  );
+}
+
 function scrollDeals(direction = 1) {
   scrollRail(dealsProductsRail, direction);
 }
@@ -1052,6 +1107,7 @@ heroCarouselTrack?.addEventListener("click", (event) => {
 });
 popularPrevBtn?.addEventListener("click", () => scrollRail(popularProductsRail, -1));
 popularNextBtn?.addEventListener("click", () => scrollRail(popularProductsRail, 1));
+setupDragScrollRail(quickCategories);
 dealsPrevBtn?.addEventListener("click", () => {
   scrollDeals(-1);
   startDealsCarousel();

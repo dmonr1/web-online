@@ -774,14 +774,31 @@ main {
 .quick-category-grid {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 12px;
-  justify-content: center;
+  justify-content: flex-start;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
   min-width: 0;
-  width: fit-content;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 2px 14px;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  width: 100%;
+}
+
+.quick-category-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.quick-category-grid.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
 }
 
 .quick-category-card {
@@ -793,7 +810,7 @@ main {
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
   color: var(--ink);
   display: inline-flex;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   gap: 10px;
   max-width: 100%;
   min-height: 48px;
@@ -2730,7 +2747,7 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
   background:
     radial-gradient(circle at 8% 0%, rgba(34, 211, 238, 0.22), transparent 34%),
     linear-gradient(180deg, #f0fdff 0%, #f8fafc 42%, #fff 100%);
-  min-height: calc(100vh - 80px);
+  min-height: auto;
   padding: 34px 2.5vw 56px;
 }
 
@@ -3603,18 +3620,19 @@ body[data-page="search"] .catalog-content .catalog-title-row .eyebrow {
     align-items: center;
     display: flex;
     gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
-    overflow: visible;
-    padding-bottom: 0;
-    width: fit-content;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 14px;
+    width: 100%;
   }
 
   .quick-category-card {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     justify-content: flex-start;
     min-width: 0;
   }
