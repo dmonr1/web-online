@@ -555,7 +555,7 @@ main {
 .store-hero {
   display: grid;
   justify-items: center;
-  padding: 40px 0 40px;
+  padding: 20px 0 40px;
 }
 
 .store-hero-carousel {
